@@ -80,6 +80,10 @@ int main(){
         
         //Updating if a key is pressed in a direction 'd'
         d = none;
+	        if(sf::Mouse::getPosition().x > playerPosition.x) d = right;
+		if(sf::Mouse::getPosition().x < playerPosition.x) d = left;
+	        if(sf::Mouse::getPosition().y > playerPosition.y) d = up;
+		if(sf::Mouse::getPosition().y < playerPosition.y) d = down;
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) d = up;
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))  d = down;
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) d = right;
@@ -89,8 +93,8 @@ int main(){
         if(d != none){
             //Set value to movement variables and update spritesource
             if(spriteSource.y == d){
-                movx += mx[d]*speed*deltatime;
-                movy += my[d]*speed*deltatime;
+//                movx += mx[d]*speed*deltatime;
+//                movy += my[d]*speed*deltatime;
             }
             else spriteSource.y = d;
 			if (scont >= time_to_next_sprite){
@@ -100,10 +104,10 @@ int main(){
         }
         
         //Calcula el desti del player
-        int destix = playerPosition.x;
+        float destix = playerPosition.x;
 		if(sf::Mouse::getPosition().x > playerPosition.x) destix += movx;
 		if(sf::Mouse::getPosition().x < playerPosition.x) destix -= movx;
-        int destiy = playerPosition.y+movy;
+        float destiy = playerPosition.y+movy;
 		destix = sf::Mouse::getPosition().x;
 		destiy = sf::Mouse::getPosition().y-spriteSize.y/2;
     
