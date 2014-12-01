@@ -1,6 +1,8 @@
 WakomExercice
 =============
 
+This "Game" is intended to be usefull to practice with the Wacom and other graphical things to draw on your computer, or also, you can prove your skill with the mouse (why not(?)).
+
 The rules: 
 1- no one talk about fight club 
 2- DO NOT TOUCH BLACK THINGS IF YOU DONT WANT TO START AGAIN 
@@ -8,7 +10,7 @@ The rules:
 3.5- the colision will be detected by the red dot, deal with it 
 4- Enjoy it. (it is a rule, so if you are not enjoying the game is because you are not following the rules)
 
-I made the game using this existing project as base : https://github.com/kaitokidi/ViewExample
+I made the game using this existing project as base : https://github.com/kaitokidi/0hgame (Read it's README, it is kind a gameception)
 
 To use it, you will need SFML libs, on Ubuntu 14 they are already included on the packages, in other Operating sistems, you will need to install them For Windows, in Visual studio (http://www.sfml-dev.org/tutorials/2.1/start-vc.php) for Linux users (http://www.sfml-dev.org/tutorials/2.1/start-linux.php), and for MAC OS (http://www.sfml-dev.org/tutorials/2.1/start-osx.php) .
 
