@@ -1,3 +1,5 @@
+#include <string>
+#include <sstream>   
 #include <iostream>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
@@ -6,6 +8,7 @@ int main(){
     
     //VARIABLES CONSTANTS i ENUMERATIONS
     int speed = 180;
+    float pantalla = 1;
     float time_to_next_sprite = 0.09;
     enum direction { down, left, right, up , none};
     const int mx[5] = {0,   -1,   1,    0,      0};
@@ -17,8 +20,8 @@ int main(){
     sf::Vector2i spriteSource(0,down);
     sf::Vector2f originalSpriteSize(0,0);
     sf::Vector2u newsize(size.x, size.y);
+    sf::Vector2f oldMousePosition(sf::Vector2f(0,0));
     sf::Vector2f playerPosition(spriteSize.x,spriteSize.y);
-    
     //OBJECTES DE SFML
         //DECLAREM LA VIEW
     sf::View view;
@@ -34,6 +37,7 @@ int main(){
     if(!pTexture.loadFromFile("sprites.png")) std::cout << "personatge Not Loaded " << std::endl;
     spriteSize.x = originalSpriteSize.x = pTexture.getSize().x/4;
     spriteSize.y = originalSpriteSize.y = pTexture.getSize().y/4;
+
     
     //VARIABLES
     direction d = none;
@@ -80,14 +84,17 @@ int main(){
         
         //Updating if a key is pressed in a direction 'd'
         d = none;
-	        if(sf::Mouse::getPosition().x > playerPosition.x) d = right;
-		if(sf::Mouse::getPosition().x < playerPosition.x) d = left;
-	        if(sf::Mouse::getPosition().y > playerPosition.y) d = up;
-		if(sf::Mouse::getPosition().y < playerPosition.y) d = down;
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) d = up;
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))  d = down;
+	        if(sf::Mouse::getPosition().x > oldMousePosition.x) d = right;
+		if(sf::Mouse::getPosition().x < oldMousePosition.x) d =  left;
+	        if(sf::Mouse::getPosition().y > oldMousePosition.y) d =  down;
+		if(sf::Mouse::getPosition().y < oldMousePosition.y) d =    up;
+	oldMousePosition.x = sf::Mouse::getPosition().x;
+	oldMousePosition.y = sf::Mouse::getPosition().y;
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))    d =    up;
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))  d =  down;
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) d = right;
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))  d = left;
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))  d =  left;
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && sf::Keyboard::isKeyPressed(sf::Keyboard::E))                                                                                                              sf::Mouse::setPosition(sf::Vector2i(window.getSize().x-3, playerPosition.y), window);
         
         //If some key is pressed
         if(d != none){
@@ -122,14 +129,15 @@ int main(){
 				playerPosition.y = destiy;
 			}
 			else {
-				playerPosition.x = spriteSize.x;
-				playerPosition.y = spriteSize.y;
+				playerPosition.x = 1;
+				playerPosition.y = 1;
 				sf::Mouse::setPosition(sf::Vector2i(playerPosition.x, playerPosition.y), window);
 			}
 		}
 		else {
-			playerPosition.x = spriteSize.x;
-			playerPosition.y = spriteSize.y;
+			playerPosition.x = 1;
+			playerPosition.y = 1;
+			sf::Mouse::setPosition(sf::Vector2i(playerPosition.x, playerPosition.y), window);
 		}
         
         //Setting movement variables to 0
@@ -140,16 +148,30 @@ int main(){
         float aux = background.getTexture()->getSize().y * background.getScale().y;
         if(playerPosition.x < 0) playerPosition.x = 0;
         else if (playerPosition.x >= window.getSize().x-3) { 
-			if(!pTexture.loadFromFile("sprites3.png")) std::cout << "personatge Not Loaded " << std::endl;
-			if(!image.loadFromFile("ground2.png")) std::cout << "ground Image Not Loaded " << std::endl;
-			if(!tbackground.loadFromImage(image)) std::cout << "background texture Not Loaded " << std::endl;
-			playerPosition.x = 1;
-			playerPosition.y = 1;
+			++pantalla;
+			//if(!image.loadFromFile("ground2.png")) std::cout << "ground Image Not Loaded " << std::endl;
+			//if(!tbackground.loadFromImage(image)) std::cout << "background texture Not Loaded " << std::endl;
+			int t = pantalla + 1;
+			std::stringstream d;
+			d << "ground" <<  t;		
+			std::string b = d.str();
+			if(!image.loadFromFile(b+".png")) if(!pTexture.loadFromFile("sprites3.png")) { std::cout << "personatge Not Loaded " << std::endl; exit(1);}
+			
+			std::stringstream s;
+			s << "ground" << pantalla;		
+			std::string board = s.str();
+			if(!image.loadFromFile(board+".png")) { std::cout << "I CAN'T LOAD BOARD IMAGE" << std::endl;     exit(1);}
+			if(!tbackground.loadFromFile(board+".png")) { std::cout << "I CAN'T LOAD BOARD texture" << std::endl;   exit(1);}
+			
+			playerPosition.x = 5;
+			playerPosition.y = 5;
+			sf::Mouse::setPosition(sf::Vector2i(playerPosition.x, playerPosition.y), window);
 		}
         else if (playerPosition.y < 0) playerPosition.y = 0;
         else if (playerPosition.y > aux) {
-			playerPosition.x = spriteSize.x;
-			playerPosition.y = spriteSize.y;
+			playerPosition.x = 5;
+			playerPosition.y = 5;
+			sf::Mouse::setPosition(sf::Vector2i(playerPosition.x, playerPosition.y), window);
 		}
         
         
