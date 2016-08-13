@@ -70,6 +70,9 @@ int main(){
                     if (event.key.code == sf::Keyboard::Escape) {
                         window.close();
                     }
+                    if (event.key.code == sf::Keyboard::K) {
+                        sf::Mouse::setPosition(sf::Vector2i(2000,100));
+                    }
                     break;
                     //Default
                 default:
